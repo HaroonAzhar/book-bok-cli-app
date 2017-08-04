@@ -20,7 +20,7 @@ class Cli
 		 			when "2"
 		 				 puts "auhthor interface"
 		 			when "3"
-		 			 	 puts "Qoutes interface"
+		 			 	  Qoute.qoute_interface
 		 			when "bye"
 		 				 puts "comeback soon! ^-^ "		
 		 					
