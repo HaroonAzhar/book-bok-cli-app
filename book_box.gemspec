@@ -9,9 +9,9 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Haroon Azhar Khan Niazi"]
   spec.email         = ["haroon1azhar@gmail.com"]
 
-  spec.summary       = %q{Retrives info about books ,author and their qoutes.Provides a cli interface to look for information}
+  spec.summary       = "Retrives info about books ,author and their qoutes.Provides a cli interface to look for information}"
  
-  spec.homepage      = "TODO: Put your gem's website or public repo URL here."
+  spec.homepage      = "https://github.com/HaroonAzhar/book-bok-cli-app"
   spec.license       = "MIT"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
