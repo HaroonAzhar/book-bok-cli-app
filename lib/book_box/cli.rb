@@ -22,7 +22,7 @@ class Cli
 		 			when "3"
 		 			 	  Qoute.qoute_interface
 		 			when "bye"
-		 				 puts "comeback soon! ^-^ "		
+		 				 puts "comeback soon! (^-^)"		
 		 					
 		 		end
  	     end
