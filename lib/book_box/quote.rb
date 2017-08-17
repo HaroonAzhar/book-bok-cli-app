@@ -1,6 +1,6 @@
 require 'pry'
 class Quote
-	attr_accessor :content,:likes,:scripture_it_belongs_to,:author, :author_link
+	attr_accessor :content,:likes,:scripture_it_belongs_to,:author, :author_link,:author_name
 	attr_writer  
     
 	def initialize(cont,likes,book,author=nil)
@@ -68,20 +68,41 @@ class Quote
     end
 
 	def self.scrape_popular_list
-		quotes=[]
+		
 		page=Nokogiri::HTML(open("https://www.goodreads.com/quotes?page=1"))
-		quote_list=page.css("div.quoteDetails")
+		list=scrape_quote_lists_from_doc(page)
+		
+			  
+             #Quote.scrape_popular_list
+             		#? quote.css("a[href^='/work']")[0]['href']:  quote.css("a[href^='/work']")[0]['href']
+			#scrapes the gref for author and then calls create_with_link
+			#Nokogiri::HTML(open("https://www.goodreads.com/quotes?page=1")).css("div.quote").css("a.authorOrTitle")["href"]
+
+		
+		
+	end
+
+	# def self.test
+	# 	page=Nokogiri::HTML(open("https://www.goodreads.com/quotes?page=1"))
+	# 	quote_list=page.css("div.quoteDetails")
+	# 	quote_list.each_with_index do |quote,index|
+	# 		puts "-------------------------------------------"
+			
+	# 		 puts 
+			
+
+	# 	end
+	# end
+	
+	def scrape_quote_lists_from_doc(doc)
+		quotes=[]
+		quote_list=doc.css("div.quoteDetails")
 		quote_list.each_with_index do |quote,index|
-			script= nil
-			if quote.css("a[href^='/work']") 
-				    script=quote.css("a[href^='/work']")[0]['href'] 
-		     else 
-		     	script=quote.css("a[href^='/work']")
-		     end
+			
 			q=Quote.new(
 				quote.css(".quoteText").text,
 				quote.css("a[title='View this quote']").text,
-				 script)
+				quote.css("a[href^='/work']").empty? ?   quote.css("a[href^='/work']") :  quote.css("a[href^='/work']")[0]['href'])
 			    q.author_link= quote.css("a[href^='/author']")[0]['href']
                  
                quotes<<q
@@ -93,33 +114,33 @@ class Quote
 			  puts "SCRIPTURE :::: #{q.scripture_it_belongs_to}"
 			  puts  " AUTHO_LINK ::::: #{q.author_link}"
 			  puts "weeeeeeeeeeeeeeeeeeeeeeeeeeeeeee--------------------------------------------------------------------------------"
-			  
-             #Quote.scrape_popular_list
-             		#? quote.css("a[href^='/work']")[0]['href']:  quote.css("a[href^='/work']")[0]['href']
-			#scrapes the gref for author and then calls create_with_link
-			#Nokogiri::HTML(open("https://www.goodreads.com/quotes?page=1")).css("div.quote").css("a.authorOrTitle")["href"]
-
-		end
+			 end 
 		
 	end
-
-	def self.test
-		page=Nokogiri::HTML(open("https://www.goodreads.com/quotes?page=1"))
-		quote_list=page.css("div.quoteDetails")
-		quote_list.each_with_index do |quote,index|
-			puts "-------------------------------------------"
-			
-			check_it=quote.css("a[href^='/work']").class
-			binding.pry
-
-		end
-	end
-	
 	def display_list(list)
-		
+		list.each do |item|
+        	puts item.content
+			puts item.likes
+			puts item.scripture_it_belongs_to
+			puts item.author_name
+		end
 		#displayed qoute 
 		
 			
+	end
+	def self.phrase_to_search_string(phrase)
+		words=phrase.split(' ')
+		str=words.join('+')
+		search_string="https://www.goodreads.com/quotes/search?utf8=%E2%9C%93&q=#{str}&commit=Search"
+	end
+
+	def view_n_quote_info(list,n)
+		puts list[n].content
+		puts list[n].likes
+		puts list[n].scripture_it_belongs_to
+		puts list[n].author_name
+		# ask to go in details of author
+		
 	end
 
 
@@ -127,18 +148,16 @@ class Quote
         
          #tells: enter a 2 digit value.The fist integer corresponds to the qoute's number in the list and the second number 
 	
-	def self.scrape_and_display_keywords_list(keyword)
-		quotes=[]
+	def self.scrape_and_display_keywords_list(phrase)
+		page=Nokogiri::HTML(open(phrase_to_search_string))
+		list=scrape_quote_lists_from_doc(page)
+
+
 
 		#displayed qoute content
          #tells: enter a 2 digit value.The fist integer corresponds to the qoute's number in the list and the second number 
 	end
 
-	def display
-		puts "#{}"
-		puts "#{}"
-		puts "#{}"
-		puts "#{}"
-	end
+	
 	
 end
