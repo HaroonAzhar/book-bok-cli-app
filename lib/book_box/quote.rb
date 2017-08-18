@@ -2,7 +2,8 @@ require 'pry'
 class Quote
 	attr_accessor :content,:likes,:scripture_it_belongs_to,:author, :author_link,:author_name
 	attr_writer  
-    
+    @@curr_pop_pg=1
+    @@curr_word_pg=1
 	def initialize(cont,likes,book,author=nil)
 		@content=cont
 		@likes=likes
@@ -31,14 +32,16 @@ class Quote
          case input
          when 1..list.length
          	view_n_quote_info(list,input-1)
+         	 #what_now?
          when "more"
-         	#method or more
+         	#popular interface with nextpage
+         	Quote.curr_pop_pg+=1
+         	popular_quote_interface
          else
          	puts "I don't understand (@ - @) "
          end
 
-		
-	end
+	 end
 
 
 	
@@ -50,16 +53,20 @@ class Quote
     	# puts "---------------------------------------------------------------------------------------------------------------------------------------------------------------------"
         #scarpe_and_display_pouplar_list
 		#display instruction for popular qoutes
-		list=self.scrape_and_display_popular_list
+		
 		loop do
+			  list=self.scrape_and_display_popular_list
 		 	  puts "Enter the place number of the qoute positioned in the list, that you want to know more about"
 	          puts " enter 'more' to view more popular quotes"
 	          puts " enter done to stop viewing qoutes, if you're done for the day  oor back"
 	          option=gets.strip.downcase
 	          break if option=="done"
-	          determine_and_execute_response(input,list)
+	          determine_and_execute_response(option,list)
 		 
 		 end
+     end
+    
+    def kuchjc
 
 
         selection=nil
@@ -104,7 +111,7 @@ class Quote
 
 	def self.scrape_popular_list
 		
-		page=Nokogiri::HTML(open("https://www.goodreads.com/quotes?page=1"))
+		page=Nokogiri::HTML(open("https://www.goodreads.com/quotes?page=#{@@curr_pop_pg}"))
 		list=scrape_quote_lists_from_doc(page)
 		display_list(list)
 		
@@ -167,7 +174,8 @@ class Quote
 	def self.phrase_to_search_string(phrase)
 		words=phrase.split(' ')
 		str=words.join('+')
-		search_string="https://www.goodreads.com/quotes/search?utf8=%E2%9C%93&q=#{str}&commit=Search"
+
+		search_string="https://www.goodreads.com/quotes/search?commit=Search&page=#{curr_word_pg}&q=#{str}"
 	end
 
 	
