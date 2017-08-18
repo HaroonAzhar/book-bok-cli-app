@@ -15,9 +15,12 @@ class Cli
 		 		selection= gets.strip.downcase
 		 		case selection
 		 		    when "popular"
-		 		    	 puts "books interface"
-		 		    	  #scarpe_and_display_pouplar_list
-		 		    	  #display what to enter
+		 		    	 puts "popular qoutes" 
+		 		    	 #popular quote interface
+		 		    	  
+		 		    	   
+						   
+						  
 		 			      #store query
 		 			      #determine and  execute the response
 		 			      
@@ -25,7 +28,7 @@ class Cli
 		 				 puts "comeback soon! (^-^)"
 		 			else
 		 			 #scrape_and_display_keywords_list 	
-		 			 puts "I don't understand (@ - @) "	 		
+		 			 	 		
 		 					
 		 		end
  	     end

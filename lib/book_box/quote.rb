@@ -11,22 +11,57 @@ class Quote
 
 	end
 
-	def quote_info_selection_instructions
-		puts " enter a 2 digit number"
-		puts " the first number represent the coresponding number of qoute in the list"
-		puts " second number represent the action you want, which is one the 2 option 1: more information about the qoute and 2: information regarding the author"
+	def intructions
+		
 		puts " enter next to load more qoutes "
 		puts " else "
-	end
-	def display_nth_author_from_list()
+ 	end
+
+    def view_n_quote_info(list,n)
+		puts list[n].content
+		puts list[n].likes
+		puts list[n].scripture_it_belongs_to
+		puts list[n].author_name
+		# ask to go in details of author
+		
+     end
+	
+	def determine_and_execute_response(input,list)
+         input=input.to_i==0? input : input.to_i
+         case input
+         when 1..list.length
+         	view_n_quote_info(list,input-1)
+         when "more"
+         	#method or more
+         else
+         	puts "I don't understand (@ - @) "
+         end
+
 		
 	end
 
-    def self.quote_interface
+
+	
+
+    def self.popular_quote_interface
     	#qoute_of_the_day
     	# puts "---------------------------------------------------------------------------------------------------------------------------------------------------------------------"
     	# puts "Qoutes of the day"
     	# puts "---------------------------------------------------------------------------------------------------------------------------------------------------------------------"
+        #scarpe_and_display_pouplar_list
+		#display instruction for popular qoutes
+		list=self.scrape_and_display_popular_list
+		loop do
+		 	  puts "Enter the place number of the qoute positioned in the list, that you want to know more about"
+	          puts " enter 'more' to view more popular quotes"
+	          puts " enter done to stop viewing qoutes, if you're done for the day  oor back"
+	          option=gets.strip.downcase
+	          break if option=="done"
+	          determine_and_execute_response(input,list)
+		 
+		 end
+
+
         selection=nil
         while selection!="exit"
     		puts "Enter a keyword to search qoutes for"
@@ -35,7 +70,7 @@ class Quote
     		selection=gets.strip.downcase
     		case selection
     			when "popular"
-    				  self.scrape_and_display_popular_list
+    				  
     				  list=quote_info_selection_instructions
     				  
     				  	quote_info_selection_instructions
@@ -71,6 +106,7 @@ class Quote
 		
 		page=Nokogiri::HTML(open("https://www.goodreads.com/quotes?page=1"))
 		list=scrape_quote_lists_from_doc(page)
+		display_list(list)
 		
 			  
              #Quote.scrape_popular_list
@@ -134,16 +170,7 @@ class Quote
 		search_string="https://www.goodreads.com/quotes/search?utf8=%E2%9C%93&q=#{str}&commit=Search"
 	end
 
-	def view_n_quote_info(list,n)
-		puts list[n].content
-		puts list[n].likes
-		puts list[n].scripture_it_belongs_to
-		puts list[n].author_name
-		# ask to go in details of author
-		
-	end
-
-
+	
 		
         
          #tells: enter a 2 digit value.The fist integer corresponds to the qoute's number in the list and the second number 
@@ -151,6 +178,7 @@ class Quote
 	def self.scrape_and_display_keywords_list(phrase)
 		page=Nokogiri::HTML(open(phrase_to_search_string))
 		list=scrape_quote_lists_from_doc(page)
+		display_list(list)
 
 
 
