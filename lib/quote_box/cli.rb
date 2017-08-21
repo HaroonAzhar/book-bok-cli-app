@@ -10,7 +10,7 @@ class Cli
  		while selection!= "bye"
  			    puts "Enter a 'keyword' to search qoutes for"
     		    puts "Enter 'popular' to view popular qoutes "
-    		    puts  "          OR                 "
+    		    puts  "    ^^      OR  ^^                "
     		    puts "TYPE bye to exit ;-;"
 		 		selection= gets.strip.downcase
 		 		case selection
@@ -23,9 +23,11 @@ class Cli
 		 			      
 		 			when "bye"
 		 				 puts "comeback soon! (^-^)"
-		 			else
+		 			when "keyword"
 		 				Quote.keyword_interface
 		 			 #scrape_and_display_keywords_list 	
+		 			else
+		 				puts "I don't understand (@ - @) "
 		 			 	 		
 		 					
 		 		end

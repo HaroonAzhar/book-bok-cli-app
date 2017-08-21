@@ -1,11 +1,11 @@
 # coding: utf-8
 lib = File.expand_path("../lib", __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require "book_box/version"
+require "quote_box/version"
 
 Gem::Specification.new do |spec|
-  spec.name          = "book_box"
-  spec.version       = BookBox::VERSION
+  spec.name          = "quote_box"
+  spec.version       =  QuoteBox::VERSION
 
   spec.authors       = ["Haroon Azhar Khan Niazi"]
   spec.email         = ["haroon1azhar@gmail.com"]
