@@ -2,8 +2,8 @@ require 'pry'
 class Quote
 	attr_accessor :content,:likes,:scripture_it_belongs_to,:author, :author_link,:author_name
 	 
-    @@curr_pop_pg=1
-    @@curr_word_pg=1
+    @@curr_pg=1
+    
 	def initialize(cont,likes,book,author_name,author=nil)
 		@content=cont
 		@likes=likes
@@ -13,7 +13,13 @@ class Quote
 
 	end
 
+	def self.curr_pg
+		@@curr_pg
+	end
 	
+	def self.curr_pg=(val)
+		@@curr_pg=val
+	end
 
     
 	
@@ -39,9 +45,11 @@ class Quote
 
     def self.keyword_interface
     	loop do
-			  list=scrape_popular_list
+    		  puts " askk for a word"
+    		  keyword=gets.strip.downcase
+			  list=scrape_keywords_list(keyword)
 			  display_list(list)
-		 	  puts "Enter the place number of the qoute positioned in the list, that you want to know more about"
+		 	  puts " Enter the place number of the qoute positioned in the list, that you want to know more about"
 	          puts " enter 'more' to view more popular quotes"
 	          puts " enter done to stop viewing qoutes, if you're done for the day  or go back to the previous menu"
 	          option=gets.strip.downcase
@@ -105,18 +113,12 @@ class Quote
 
 	private
 
-     def self.scrape_keywords_list(phrase)
+      def self.scrape_keywords_list(phrase)
 		page=Nokogiri::HTML(open(phrase_to_search_string(phrase)))
 		list=scrape_quote_lists_from_doc(page)
-		
+	  end
 
-
-
-		#displayed qoute content
-         #tells: enter a 2 digit value.The fist integer corresponds to the qoute's number in the list and the second number
-     end
-
-	def self.scrape_quote_lists_from_doc(doc)
+	   def self.scrape_quote_lists_from_doc(doc)
 		quotes=[]
 		quote_list=doc.css("div.quoteDetails")
 		quote_list.each do |quote|
@@ -126,58 +128,68 @@ class Quote
 				quote.css("a[title='View this quote']").text,
 				quote.css(".quoteText").text.strip.split("\n")[3],
 				quote.css(".quoteText").text.strip.split("\n")[2])
-
-			    #quote.css("a[href^='/work']").empty? ?   quote.css("a[href^='/work']") :  quote.css("a[href^='/work']")[0]['href']
-			    q.author_link= quote.css("a[href^='/author']")[0]['href']
-                 
-               quotes<<q
-               
-                
-			 end 
-		quotes
-	end
+                q.author_link= quote.css("a[href^='/author']")[0]['href']
+                quotes<<q
+             end 
+		 quotes
+	    end
 
 	def self.scrape_popular_list
 		
-		page=Nokogiri::HTML(open("https://www.goodreads.com/quotes?page=#{@@curr_pop_pg}"))
+		page=Nokogiri::HTML(open("https://www.goodreads.com/quotes?page=#{@@curr_pg}"))
 		list=scrape_quote_lists_from_doc(page)
-             #Quote.scrape_popular_list
-             		
-			#scrapes the gref for author and then calls create_with_link
-			#Nokogiri::HTML(open("https://www.goodreads.com/quotes?page=1")).css("div.quote").css("a.authorOrTitle")["href"]
-	 end
+     end
 
-	 def self.what_now?
+	 
+
+	 def self.what_now?(quobj)
 	 	puts "enter 'author' to know more amout author"
 	 	puts  "or"
 	 	puts  "press enter to reload all the quotes"
 	 	 ans=gets.strip.downcase
 	 	 if ans=="author"  
-            Author.interface 
+            #Author.interface
+            #quobj.auhor=Author.create_by_link(quobj.author_link)
+              
+
+
+            #Create author by link
+            # auhor=
             else 
             	puts "not author"
             end
 	 	
 	 end
 
+
+
+
+
+
 	 def self.determine_and_execute_response(input,list)
          input=input.to_i==0? input : input.to_i
          case input
          when 1..list.length
          	view_n_quote_info(list,input-1)
-             what_now?
+             what_now?(list[input-1]) #pass the quote object
          	 #what_now?
          when "more"
          	#popular interface with nextpage
-         	@@curr_pop_pg+=1
+         	@@curr_pg+=1
          	self.popular_interface
          else
          	puts "I don't understand (@ - @) "
          end
 
 	 end
-	 def self.display_list(list)
+
+
+
+
+
+	def self.display_list(list)
 		list.each do |item|
+			puts "\n"
            	puts item.content
 			
 		end
@@ -189,7 +201,7 @@ class Quote
 		words=phrase.split(' ')
 		str=words.join('+')
 
-		search_string="https://www.goodreads.com/quotes/search?commit=Search&page=#{curr_word_pg}&q=#{str}"
+		search_string="https://www.goodreads.com/quotes/search?commit=Search&page=#{curr_pg}&q=#{str}"
 	end
 
    def self.view_n_quote_info(list,n)

@@ -8,11 +8,14 @@ class Cli
  	def interact
  		selection= nil
  		while selection!= "bye"
+ 			    Quote.curr_pg=1
+ 			    
  			    puts "Enter a 'keyword' to search qoutes for"
     		    puts "Enter 'popular' to view popular qoutes "
     		    puts  "    ^^      OR  ^^                "
     		    puts "TYPE bye to exit ;-;"
 		 		selection= gets.strip.downcase
+
 		 		case selection
 		 		    when "popular"
 		 		    	 Quote.popular_interface

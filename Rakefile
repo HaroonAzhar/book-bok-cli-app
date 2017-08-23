@@ -8,5 +8,5 @@ task :default => :spec
 
 task :console do
 	puts "loaded environment"
-	system("irb -r ./lib/book_box.rb")
+	system("irb -r ./lib/quote_box.rb")
 end
