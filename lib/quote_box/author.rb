@@ -2,9 +2,7 @@ class Author
 	attr_accessor :name,:dob,:bio,:rating
 
 	
-	def self.author_interface
-		
-	end
+	
 	def initialize(name=nil,dob=nil,bio=nil,rating=nil)
 		@name=name
 		@dob= dob
@@ -25,6 +23,14 @@ class Author
 			 page.css("span.average[itemprop='ratingValue']").text,
 		     )
 	end
+
+	def display
+		puts self.name
+		puts self.dob
+		puts self.bio
+		puts self.rating
+			
+		end
     
 end
 

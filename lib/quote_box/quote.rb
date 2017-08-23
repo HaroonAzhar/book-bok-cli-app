@@ -32,9 +32,12 @@ class Quote
     	loop do
 			  list=scrape_popular_list
 			  display_list(list)
-		 	  puts "Enter the place number of the qoute positioned in the list, that you want to know more about"
-	          puts " enter 'more' to view more popular quotes"
-	          puts " enter done to stop viewing qoutes, if you're done for the day  or go back to the previous menu"
+			  puts "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+			  puts "                                 I N S T R U C T I O N S                                        "
+		 	  puts "\nEnter the place number of the qoute positioned in the list, that you want to know more about"
+	          puts "\nEnter 'more' to view more popular quotes"
+	          puts "\nEnter done to stop viewing qoutes, if you're done for the day  or go back to the previous menu"
+	          puts "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 	          option=gets.strip.downcase
 	          break if option=="done"
 	          determine_and_execute_response(option,list)
@@ -49,9 +52,12 @@ class Quote
     		  keyword=gets.strip.downcase
 			  list=scrape_keywords_list(keyword)
 			  display_list(list)
-		 	  puts " Enter the place number of the qoute positioned in the list, that you want to know more about"
-	          puts " enter 'more' to view more popular quotes"
-	          puts " enter done to stop viewing qoutes, if you're done for the day  or go back to the previous menu"
+		 	  puts "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+			  puts "                                 I N S T R U C T I O N S                                        "
+		 	  puts "\nEnter the place number of the qoute positioned in the list, that you want to know more about"
+	          puts "\nEnter 'more' to view more popular quotes"
+	          puts "\nEnter done to stop viewing qoutes, if you're done for the day  or go back to the previous menu"
+	          puts "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 	          option=gets.strip.downcase
 	          break if option=="done"
 	          determine_and_execute_response(option,list)
@@ -64,7 +70,7 @@ class Quote
    
 	
 	# def self.test
-	# 	page=Nokogiri::HTML(open("https://www.goodreads.com/quotes?page=1"))
+	# 	page=Nokogiri::HTML(open("https://www.goodreads.com/quotes?page=1")).css(".quoteText").text.strip.split("\n")[3]
 	# 	quote_list=page.css("div.quoteDetails")
 	# 	quote_list.each_with_index do |quote,index|
 	# 		puts "-------------------------------------------"
@@ -126,7 +132,7 @@ class Quote
 			q=Quote.new(
 				quote.css(".quoteText").text.strip.split("\n")[0],
 				quote.css("a[title='View this quote']").text,
-				quote.css(".quoteText").text.strip.split("\n")[3],
+				quote.css(".quoteText").text.strip.split("\n")[4],
 				quote.css(".quoteText").text.strip.split("\n")[2])
                 q.author_link= quote.css("a[href^='/author']")[0]['href']
                 quotes<<q
@@ -143,20 +149,17 @@ class Quote
 	 
 
 	 def self.what_now?(quobj)
-	 	puts "enter 'author' to know more amout author"
-	 	puts  "or"
-	 	puts  "press enter to reload all the quotes"
+	 	puts "\n Enter 'author' to know more amout author"
+	 	puts  "\nOr"
+	 	puts  "\nPress enter to reload all the quotes"
 	 	 ans=gets.strip.downcase
 	 	 if ans=="author"  
             #Author.interface
-            #quobj.auhor=Author.create_by_link(quobj.author_link)
-              
-
-
-            #Create author by link
-            # auhor=
+            quobj.author=Author.create_by_link(quobj.author_link)
+            quobj.author.display
+            puts "\nPress enter to continue"
             else 
-            	puts "not author"
+            	
             end
 	 	
 	 end
@@ -171,10 +174,8 @@ class Quote
          case input
          when 1..list.length
          	view_n_quote_info(list,input-1)
-             what_now?(list[input-1]) #pass the quote object
-         	 #what_now?
+             what_now?(list[input-1]) 
          when "more"
-         	#popular interface with nextpage
          	@@curr_pg+=1
          	self.popular_interface
          else
@@ -188,9 +189,9 @@ class Quote
 
 
 	def self.display_list(list)
-		list.each do |item|
-			puts "\n"
-           	puts item.content
+		list.each_with_index do |item,index|
+			puts "\n#{index+1})"
+           	puts "\n#{item.content}"
 			
 		end
 		
@@ -200,15 +201,15 @@ class Quote
 	def self.phrase_to_search_string(phrase)
 		words=phrase.split(' ')
 		str=words.join('+')
-
-		search_string="https://www.goodreads.com/quotes/search?commit=Search&page=#{curr_pg}&q=#{str}"
+        search_string="https://www.goodreads.com/quotes/search?commit=Search&page=#{curr_pg}&q=#{str}"
 	end
 
    def self.view_n_quote_info(list,n)
-		puts list[n].content
-		puts list[n].likes
-		puts list[n].scripture_it_belongs_to
-		puts list[n].author_name
+		puts "\n#{list[n].content}"
+		puts "\n-#{list[n].author_name}#{list[n].scripture_it_belongs_to }"
+		puts "\nIt has #{list[n].likes}"
+		
+		
 		# ask to go in details of author
 		
      end

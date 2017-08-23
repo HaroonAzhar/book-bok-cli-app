@@ -10,10 +10,10 @@ class Cli
  		while selection!= "bye"
  			    Quote.curr_pg=1
  			    
- 			    puts "Enter a 'keyword' to search qoutes for"
-    		    puts "Enter 'popular' to view popular qoutes "
-    		    puts  "    ^^      OR  ^^                "
-    		    puts "TYPE bye to exit ;-;"
+ 			    puts "\nEnter a 'keyword' to search qoutes for"
+    		    puts "\nEnter 'popular' to view popular qoutes "
+    		    puts  "\n    ^^      OR  ^^                "
+    		    puts "\nTYPE bye to exit ;-;"
 		 		selection= gets.strip.downcase
 
 		 		case selection
