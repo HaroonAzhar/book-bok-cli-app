@@ -10,13 +10,12 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Haroon Azhar Khan Niazi"]
   spec.email         = ["haroon1azhar@gmail.com"]
 
-  spec.summary       = "Retrives info about books ,author and their qoutes.Provides a cli interface to look for information}"
+  spec.summary       = "Retrives qoutes.Provides a cli interface to look for information"
  
-  spec.homepage      = "https://github.com/HaroonAzhar/book-bok-cli-app"
+  spec.homepage      = "https://github.com/HaroonAzhar/quote-box-cli-app"
   spec.license       = "MIT"
 
-  # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
-  # to allow pushing to a single host or delete this section to allow pushing to any host.
+
   if spec.respond_to?(:metadata)
     spec.metadata["allowed_push_host"] = "TODO: Set to 'http://mygemserver.com'"
   else
@@ -34,7 +33,10 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "bundler", "~> 1.15"
   spec.add_development_dependency "rake", "~> 10.0"
   spec.add_development_dependency "rspec", "~> 3.0"
-  spec.add_dependency "nokogiri"
   spec.add_development_dependency "pry"
   
+  spec.add_dependency "nokogiri" 
+  
+  
+
 end

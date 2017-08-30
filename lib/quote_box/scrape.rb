@@ -26,6 +26,31 @@ class Scrapper
 		list=scrape_quote_lists_from_doc(page)
      end
 
+     
+
+
+     def self.scrape_author(link)
+      	page=Nokogiri::HTML(open("https://www.goodreads.com#{link}"))
+		Author.new(
+			 page.css(".authorName span[itemprop='name']")[0].text,
+			 page.css("div.dataItem[itemprop='birthDate']").text,
+			 page.css("span[id^='freeTextauthor'][style^='display']").text,
+			 page.css("span.average[itemprop='ratingValue']").text,
+		     )
+      end
+
+
+
+
+
+
+
+
+
+
+
+
+
    private 
 
 	   def self.scrape_quote_lists_from_doc(doc)
@@ -50,9 +75,11 @@ class Scrapper
 		str=words.join('+')
         search_string="https://www.goodreads.com/quotes/search?commit=Search&page=#{curr_pg}&q=#{str}"
 	     end
+   
 
 
-	
+
+
 
 
 

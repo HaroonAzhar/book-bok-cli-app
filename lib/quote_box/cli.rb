@@ -3,12 +3,20 @@ class Cli
         puts "~~~~~~~~~~~~~~~~~~~~~~"
 		puts "Hello,how are you today?"
 		puts "~~~~~~~~~~~~~~~~~~~~~~"
-		
+		self.class.interact
  	end
- 	def interact
+
+
+
+ 	
+
+
+ 	 private
+
+ 	 	def self.interact
  		selection= nil
  		while selection!= "bye"
- 			    Quote.curr_pg=1
+ 			    Scrapper.curr_pg=1
  			    
  			    puts "\nEnter a 'keyword' to search qoutes for"
     		    puts "\nEnter 'popular' to view popular qoutes "
@@ -32,7 +40,7 @@ class Cli
  	 end
 
 
- 	 private
+
  	 def self.display_list(list)
 		list.each_with_index do |item,index|
 			puts "\n#{index+1})"
@@ -42,14 +50,14 @@ class Cli
 		
 	end	
 
-	def self.determine_and_execute_response(input,list)
+	def self.respond(input,list)
          input=input.to_i==0? input : input.to_i
          case input
          when 1..list.length
          	list[input-1].display
              what_now?(list[input-1]) 
          when "more"
-         	@@curr_pg+=1
+         	Scrapper.curr_pg+=1
          	self.popular_interface
          else
          	puts "I don't understand (@ - @) "
@@ -57,16 +65,21 @@ class Cli
 
 	 end
 
-	 
+
 	 def self.what_now?(quobj)
-	 	puts "\n Enter 'author' to know more amout author"
+        puts "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+	 	puts  "\nEnter 'author' to know more about the author"
 	 	puts  "\nOr"
 	 	puts  "\nPress enter to reload all the quotes"
+	 	puts "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+
 	 	 ans=gets.strip.downcase
 	 	 if ans=="author"  
             quobj.author=Author.create_by_link(quobj.author_link)
             quobj.author.display
             puts "\nPress enter to continue"
+            gets.strip
+
             else 
             	
             end
@@ -77,8 +90,9 @@ class Cli
 
 
 	  def self.popular_interface
+	  	list=Scrapper.scrape_popular_list
     	loop do
-			  list=scrape_popular_list
+			  
 			  display_list(list)
 			  puts "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 			  puts "                                 I N S T R U C T I O N S                                        "
@@ -88,17 +102,18 @@ class Cli
 	          puts "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 	          option=gets.strip.downcase
 	          break if option=="done"
-	          determine_and_execute_response(option,list)
+	          respond(option,list)
 		 
 		 end
      end
 
 
     def self.keyword_interface
-    	loop do
-    		  puts " askk for a word"
+    	puts "\nEnter the word you'd like to search qoutes relating to"
     		  keyword=gets.strip.downcase
-			  list=scrape_keywords_list(keyword)
+			  list=Scrapper.scrape_keywords_list(keyword)
+    	loop do
+    		  
 			  display_list(list)
 		 	  puts "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 			  puts "                                 I N S T R U C T I O N S                                        "
@@ -108,7 +123,7 @@ class Cli
 	          puts "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 	          option=gets.strip.downcase
 	          break if option=="done"
-	          determine_and_execute_response(option,list)
+	          respond(option,list)
 		 
 		 end
      end

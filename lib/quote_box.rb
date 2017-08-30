@@ -2,6 +2,7 @@ require_relative "quote_box/version"
 require_relative "quote_box/cli.rb"
 require_relative "quote_box/quote.rb"
 require_relative "quote_box/author.rb"
+require_relative "quote_box/scrape.rb"
 require 'nokogiri'
 require 'open-uri'
 

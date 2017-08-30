@@ -14,21 +14,15 @@ class Author
     end
 
 	def self.create_by_link(link)
+		Scrapper.scrape_author(link)
 		
-		page=Nokogiri::HTML(open("https://www.goodreads.com#{link}"))
-		self.new(
-			 page.css(".authorName span[itemprop='name']")[0].text,
-			 page.css("div.dataItem[itemprop='birthDate']").text,
-			 page.css("span[id^='freeTextContainerauthor'][style^='display']").text,
-			 page.css("span.average[itemprop='ratingValue']").text,
-		     )
 	end
 
 	def display
-		puts self.name
-		puts self.dob
-		puts self.bio
-		puts self.rating
+		puts "Name: #{self.name}"
+		puts "Born on: #{self.dob.strip}"
+		puts "Bio: #{self.bio}"
+		puts "Rating out of 5: #{self.rating}"
 			
 		end
     

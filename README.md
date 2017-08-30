@@ -1,8 +1,6 @@
-# BookBox
+# QuoteBox
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/quote_box`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+Quote Box is a gem used to Fetch Quotes from the good Read website and display them, it also has a command line interface aswell.
 
 ## Installation
 
@@ -21,8 +19,8 @@ Or install it yourself as:
     $ gem install quote_box
 
 ## Usage
+   https://www.youtube.com/watch?v=2zV0mEUE8DY&t=7s
 
-TODO: Write usage instructions here
 
 ## Development
 
@@ -32,7 +30,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/book_box. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/quote_box. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
 ## License
 
@@ -40,4 +38,4 @@ The gem is available as open source under the terms of the [MIT License](http://
 
 ## Code of Conduct
 
-Everyone interacting in the BookBox project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/book_box/blob/master/CODE_OF_CONDUCT.md).
+Everyone interacting in the QuoteBox project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/quote_box/blob/master/CODE_OF_CONDUCT.md).
